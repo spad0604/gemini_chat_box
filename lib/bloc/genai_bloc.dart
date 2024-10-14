@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gemini/repository/genai_model.dart';
-import 'package:gemini/worker/genai_worker.dart';
 import 'package:gemini/utils/bloc_extension.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 

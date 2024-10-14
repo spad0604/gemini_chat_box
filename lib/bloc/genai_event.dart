@@ -10,6 +10,5 @@ class SendMessageEvent extends GenaiEvent {
   const SendMessageEvent(this.message);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [message];
 }

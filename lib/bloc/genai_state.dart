@@ -15,6 +15,5 @@ class MessagesUpdate extends GenaiState {
   const MessagesUpdate(this.contents);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [...contents, contents.length];
 }
