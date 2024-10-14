@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gemini/bloc/genai_bloc.dart';
 import 'package:gemini/data/chat_content.dart';
 import 'package:gemini/widget/chat_bubble_widget.dart';
 import 'package:gemini/widget/message_box_widget.dart';
 
-void main() {
+void main() async{
+  await dotenv.load();
   runApp(BlocProvider<GenaiBloc> (
     create: (context) => GenaiBloc(),
     child: MyApp(),
