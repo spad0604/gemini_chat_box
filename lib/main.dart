@@ -1,63 +1,45 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gemini/bloc/genai_bloc.dart';
-import 'package:gemini/data/chat_content.dart';
-import 'package:gemini/widget/chat_bubble_widget.dart';
-import 'package:gemini/widget/message_box_widget.dart';
-
+import 'package:gemini/features/genai_setting/bloc/genai_bloc.dart';
+import 'package:gemini/features/login/ui/login_screen.dart';
+import 'package:gemini/firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp (
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+
   await dotenv.load();
   runApp(BlocProvider<GenaiBloc> (
     create: (context) => GenaiBloc(),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final photoUrl =
-      'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg';
-
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+        title: 'Localizations Sample App',
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'), // English// Spanish
+        ],
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-            child: Column(
-              children: [
-                Expanded(
-                    child: BlocBuilder<GenaiBloc, GenaiState> (
-                        builder: (context, state) {
-                          final List<ChatContent> data = [];
-
-                          if(state is MessagesUpdate) {
-                            data.addAll(state.contents);
-                          }
-                          return ListView(
-                              children: data.map((e) {
-                                final bool isMine = e.sender == Sender.user;
-                                //final String? photoUrl = isMine ? null : photoUrl;
-                                return ChatBubble(isMine: isMine,
-                                    photoUrl: photoUrl,
-                                    message: e.message
-                                );
-                              }
-                              ).toList()
-                          );
-                        }
-                    )),
-                MessageBox(
-                  onSendMessage: (value) {
-                    context.read<GenaiBloc>().add(SendMessageEvent(value));
-                  },
-                )
-              ],
-            )),
-      ),
+      home: LoginScreen()
     );
   }
 }
