@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GenAiWorking {
-  late final GenerativeModel _model;
+  late final GenerativeModelWrapper _model;
 
   final List<ChatContent> _content = [];
 
@@ -11,13 +11,11 @@ class GenAiWorking {
 
   Stream<List<ChatContent>> get stream => _streamController.stream;
 
-  GenAiWorking() {
-    final apiKey = "AIzaSyDUjO0Mt6T-okamHp8DXruDmaoFOYMlM4M";
-
-    _model = GenerativeModel(model: 'gemini-1.5-pro', apiKey: apiKey);
+  GenAiWorking({GenerativeModelWrapper? wrapper}) {
+    _model = wrapper ?? GenerativeModelWrapper();
   }
 
-  void sendToGemini(String message) async {
+  Future<void> sendToGemini(String message) async {
     _content.add(ChatContent.user(message));
     _streamController.sink.add(_content);
 
@@ -50,4 +48,17 @@ class ChatContent {
 
   ChatContent.user(this.message) : sender = Sender.user;
   ChatContent.gemini(this.message) : sender = Sender.gemini;
+}
+
+class GenerativeModelWrapper {
+  late final GenerativeModel _model;
+
+  GenerativeModelWrapper() {
+    final apiKey = "AIzaSyDUjO0Mt6T-okamHp8DXruDmaoFOYMlM4M";
+
+    _model = GenerativeModel(model: 'gemini-1.5-pro', apiKey: apiKey);
+  }
+
+  Future<GenerateContentResponse> generateContent(
+  Iterable<Content> prompt) => _model.generateContent(prompt);
 }
