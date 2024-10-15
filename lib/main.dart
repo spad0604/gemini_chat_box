@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gemini/features/genai_setting/bloc/genai_bloc.dart';
+import 'package:gemini/features/genai_setting/ui/genai_setting_screen.dart';
 import 'package:gemini/features/login/ui/login_screen.dart';
 import 'package:gemini/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,11 +36,9 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
-          Locale('en'), // English// Spanish
-        ],
+        supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      home: LoginScreen()
+      home: GenaiSettingScreen()
     );
   }
 }

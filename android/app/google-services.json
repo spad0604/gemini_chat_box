@@ -29,6 +29,13 @@
             {
               "client_id": "136697742935-b71k5ua2bl4nbme5d5g1umcpl5vc4ald.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "136697742935-nku5vst2i2ottmc1h28vh066r5e0h6rg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gemini"
+              }
             }
           ]
         }
