@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      home: GenaiSettingScreen()
+      home: LoginScreen()
     );
   }
 }

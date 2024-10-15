@@ -21,14 +21,43 @@ class _LoginScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-            onPressed: () {
-              context.read<LoginCubit>().requestLogin();
-            },
-            child: Text(context.locale.login)),
-      ),
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Welcome, ${state.displayName}')),
+          );
+        } else if (state is LoginFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Login failed: ${state.reason}')),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.login),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (state is LoginSuccess)
+                  Text('Hello, ${state.displayName}'),
+                if (state is! LoginSuccess)
+                  TextButton(
+                    onPressed: () {
+                      context.read<LoginCubit>().requestLogin();
+                    },
+                    child: Text(AppLocalizations.of(context)!.login),
+                  ),
+                if (state is LoginInitial)
+                  const CircularProgressIndicator(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
